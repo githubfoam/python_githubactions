@@ -1,0 +1,84 @@
+name: "Pylint CI workflow ubuntu"
+
+
+on:
+  push:
+    branches: [ dev ]
+  # pull_request:
+  #   branches: [ githubactions_powershell ]
+
+jobs:
+
+  build-ubuntu-latest-job:
+    name: "Python Package on ubuntu-latest - ubuntu 18.04"
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: "Set up Python 3.8"
+      uses: actions/setup-python@v1
+      with:
+        python-version: 3.8
+    - name: "Install dependencies"
+      run: |
+        python -m pip install --upgrade pip
+        pip install pylint
+    - name: Analysing the code with pylint
+      run: |
+        pylint `ls -R|grep .py$|xargs`
+
+  build-ubuntu-1804-job:
+    name: "Python Package matrix on ubuntu 18.04"
+    runs-on: ubuntu-18.04 # 18.04
+    strategy:
+      # max-parallel: 5
+      matrix:
+        python-version: ['3.5', '3.6', '3.7', '3.8']
+    steps:
+    - uses: actions/checkout@v2
+    - name: "Install dependencies"
+      run: |
+        python -m pip install --upgrade pip
+        pip install pylint
+    - name: Analysing the code with pylint
+      run: |
+        pylint `ls -R|grep .py$|xargs`
+
+  ubuntu-1604-job:
+    name: "Python Package matrix on ubuntu-16.04"
+    runs-on: ubuntu-16.04
+    strategy:
+      # max-parallel: 5
+      matrix:
+        python-version: ['3.5', '3.6', '3.7', '3.8']    
+    steps:
+    - uses: actions/checkout@v2
+    - name: "os fingerprinting"
+      run: hostnamectl status         
+    - uses: actions/checkout@v2
+    - name: "Install dependencies"
+      run: |
+        python -m pip install --upgrade pip
+        pip install pylint
+    - name: Analysing the code with pylint
+      run: |
+        pylint `ls -R|grep .py$|xargs`      
+
+  ubuntu-2004-job:
+    name: "Python Package matrix on ubuntu-20.04"
+    runs-on: ubuntu-20.04
+    strategy:
+      # max-parallel: 5
+      matrix:
+        python-version: ['3.5', '3.6', '3.7', '3.8']    
+    steps:
+    - uses: actions/checkout@v2
+    - name: "os fingerprinting"
+      run: hostnamectl status         
+    - uses: actions/checkout@v2
+    - name: "Install dependencies"
+      run: |
+        python -m pip install --upgrade pip
+        pip install pylint
+    - name: Analysing the code with pylint
+      run: |
+        pylint `ls -R|grep .py$|xargs`         

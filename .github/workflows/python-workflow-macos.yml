@@ -1,0 +1,61 @@
+name: "python app CI workflow macos"
+
+
+on:
+  push:
+    branches: [ dev ]
+  # pull_request:
+  #   branches: [ githubactions_powershell ]
+
+
+jobs:
+
+# https://docs.github.com/en/free-pro-team@latest/actions/guides/building-and-testing-python#using-a-specific-python-version
+  build-python-macos-latest:
+    name: "python matrix excluding a version macos-latest - macos-latest 10.15.7"
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        # os: [ubuntu-latest, macos-latest, windows-latest]
+        os: [macos-latest]
+        # python-version: [2.7, 3.6, 3.7, 3.8, pypy2, pypy3]
+        python-version: [2.7, 3.6, 3.7]
+        exclude:
+          - os: macos-latest
+            python-version: 3.6
+          # - os: windows-latest
+          #   python-version: 3.6
+    steps:
+    - uses: actions/checkout@v2
+    - name: "Set up Python ${{ matrix.python-version }}"
+      uses: actions/setup-python@v2
+      with:
+        python-version: ${{ matrix.python-version }}
+    # You can test your matrix by printing the current Python version
+    - name: "Display Python version"
+      run: python -c "import sys; print(sys.version)"          
+
+# https://docs.github.com/en/free-pro-team@latest/actions/guides/building-and-testing-python#using-a-specific-python-version
+  build-python-macos-matrix:
+    name: "python matrix excluding a version macos matrix"
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        # os: [ubuntu-latest, macos-latest, windows-latest]
+        os: [macos-latest,macos-11.0,macos-10.15]
+        # python-version: [2.7, 3.6, 3.7, 3.8, pypy2, pypy3]
+        python-version: [2.7, 3.6, 3.7]
+        exclude:
+          - os: macos-latest
+            python-version: 3.6
+          # - os: windows-latest
+          #   python-version: 3.6
+    steps:
+    - uses: actions/checkout@v2
+    - name: "Set up Python ${{ matrix.python-version }}"
+      uses: actions/setup-python@v2
+      with:
+        python-version: ${{ matrix.python-version }}
+    # You can test your matrix by printing the current Python version
+    - name: "Display Python version"
+      run: python -c "import sys; print(sys.version)"  
