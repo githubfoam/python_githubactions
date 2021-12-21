@@ -1,2 +1,5 @@
 # python_githubactions
-python app CI workflow
+
+https://github.com/actions/setup-python
+https://github.com/actions/python-versions
+
