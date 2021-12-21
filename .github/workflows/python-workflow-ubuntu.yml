@@ -1,0 +1,60 @@
+name: "python app CI workflow ubuntu"
+
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+
+
+# https://docs.github.com/en/free-pro-team@latest/actions/guides/building-and-testing-python
+  build-python-multiple-versions:
+    name: "Using multiple Python versions matrix on ubuntu-latest - ubuntu 18.04"
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [2.7, 3.5, 3.6, 3.7, 3.8]
+    steps:
+    - uses: actions/checkout@v2
+    - name: "Set up Python ${{ matrix.python-version }}"
+      uses: actions/setup-python@v2
+      with:
+        python-version: ${{ matrix.python-version }}
+    # You can test your matrix by printing the current Python version
+    - name: "Display Python version"
+      run: python -c "import sys; print(sys.version)"        
+
+# https://docs.github.com/en/free-pro-team@latest/actions/guides/building-and-testing-python
+  build-python-multiple-versions-ubuntu-2004:
+    name: "Using multiple Python versions matrix ubuntu-20.04"
+    runs-on: ubuntu-20.04
+    strategy:
+      matrix:
+        python-version: [2.7, 3.5, 3.6, 3.7, 3.8]
+    steps:
+    - uses: actions/checkout@v2
+    - name: "Set up Python ${{ matrix.python-version }}"
+      uses: actions/setup-python@v2
+      with:
+        python-version: ${{ matrix.python-version }}
+    # You can test your matrix by printing the current Python version
+    - name: "Display Python version"
+      run: python -c "import sys; print(sys.version)"   
+
+# https://docs.github.com/en/free-pro-team@latest/actions/guides/building-and-testing-python#using-a-specific-python-version
+  build-python-specific-version:
+    name: "Using a specific Python version on -ubuntu-latest - ubuntu-18.04"
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: "Set up Python 3.x"
+      uses: actions/setup-python@v2
+      with:
+        # Semantic version range syntax or exact version of a Python version
+        python-version: '3.x'
+        # Optional - x64 or x86 architecture, defaults to x64
+        architecture: 'x64'
+    # You can test your matrix by printing the current Python version
+    - name: "Display Python version"
+      run: python -c "import sys; print(sys.version)"
